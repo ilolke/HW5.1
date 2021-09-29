@@ -29,7 +29,7 @@ namespace HW5._1
                 }
 
             }
-            writeMatrix(mat);
+            
         }
 
         /// <summary>
@@ -125,10 +125,6 @@ namespace HW5._1
         {
             int[,] matrix = new int[mat1.GetLength(0), mat1.GetLength(1)];
 
-            Console.WriteLine(matrix.GetLength(0));
-            Console.WriteLine(mat2.GetLength(0));
-            Console.WriteLine(mat1.GetLength(1));
-
             for (int i = 0; i < matrix.GetLength(0); i++)
             {
                 for (int a = 0; a < mat2.GetLength(0); a++)
@@ -157,6 +153,7 @@ namespace HW5._1
             int rowB;
             int columnB;
             int Mult;
+            double number;
 
             int[,] matrixA;
             int[,] matrixB;
@@ -166,22 +163,40 @@ namespace HW5._1
             ////Инициализация, проверка правильности ввода и заполнение матрицы A
             do
             {
-                Console.Write("Введите число строк матрицы А:");
-                rowA = Convert.ToInt32(Console.ReadLine());
-                if (rowA < 0)
+                rowA = -1;
+                try
                 {
-                    Console.Write("Матриц с отрицательным количеством строк не существует введите значение > 0 \n");
+                    Console.Write("Введите число строк матрицы A:");
+                    rowA = Convert.ToInt32(Console.ReadLine());
+                    if (rowA < 0)
+                    {
+                        Console.Write("Матриц с отрицательным количеством строк не существует введите значение > 0 \n");
+                    }
+
+                }
+                catch (FormatException)
+                {
+                    Console.Write("Неверный формат ввода. Введите число действительного типа \n");
                 }
             } while (rowA < 0);
 
 
             do
             {
-                Console.Write("Введите число стобцов матрицы А:");
-                columnA = Convert.ToInt32(Console.ReadLine());
-                if (columnA < 0)
+                columnA = -1;
+                try
                 {
-                    Console.Write("Матриц с отрицательным количеством столбцов не существует введите значение > 0 \n");
+                    Console.Write("Введите число стобцов матрицы A:");
+                    columnA = Convert.ToInt32(Console.ReadLine());
+                    if (columnA < 0)
+                    {
+                        Console.Write("Матриц с отрицательным количеством столбцов не существует введите значение > 0 \n");
+                    }
+
+                }
+                catch (FormatException)
+                {
+                    Console.Write("Неверный формат ввода. Введите число действительного типа \n");
                 }
 
             } while (columnA < 0);
@@ -193,28 +208,49 @@ namespace HW5._1
             //Инициализация, проверка правильности ввода и заполнение матрицы B
             do
             {
-                Console.Write("Введите число строк матрицы B:");
-                rowB = Convert.ToInt32(Console.ReadLine());
-                if (rowB < 0)
+                rowB = -1;
+                try
                 {
-                    Console.Write("Матриц с отрицательным количеством строк не существует введите значение > 0 \n");
+                    Console.Write("Введите число строк матрицы B:");
+                    rowB = Convert.ToInt32(Console.ReadLine());
+                    if (rowB < 0)
+                    {
+                        Console.Write("Матриц с отрицательным количеством столбцов не существует введите значение > 0 \n");
+                    }
+
                 }
+                catch (FormatException)
+                {
+                    Console.Write("Неверный формат ввода. Введите число действительного типа \n");
+                }        
 
             } while (rowB < 0);
 
             do
             {
-                Console.Write("Введите число стобцов матрицы B:");
-                columnB = Convert.ToInt32(Console.ReadLine());
-                if (columnB < 0)
+                columnB = -1;
+                try
                 {
-                    Console.Write("Матриц с отрицательным количеством столбцов не существует введите значение > 0 \n");
+                    Console.Write("Введите число стобцов матрицы B:");
+                    columnB = Convert.ToInt32(Console.ReadLine());
+                    if (columnB < 0) 
+                    {
+                        Console.Write("Матриц с отрицательным количеством столбцов не существует введите значение > 0 \n");
+                    }
+
                 }
+                catch (FormatException)
+                {
+                    Console.Write("Неверный формат ввода. Введите число действительного типа \n");
+                }                     
+
+
+           
             } while (columnB < 0);
+
 
             matrixB = new int[rowB, columnB];
             Console.WriteLine();
-
             Console.Write("Введите число множитель:");
             Mult = Convert.ToInt32(Console.ReadLine());
 
@@ -223,12 +259,13 @@ namespace HW5._1
             //Заполнение и вывод исходных матриц на экран
             Console.WriteLine("Исходная матрица A");
             fillRandom(matrixA);
+            writeMatrix(matrixA);
 
             Console.WriteLine();
 
             Console.WriteLine("Исходная матрица B");
             fillRandom(matrixB);
-
+            writeMatrix(matrixB);
             Console.WriteLine();
 
 
@@ -267,22 +304,20 @@ namespace HW5._1
             else
             {
 
-                Console.WriteLine("Размерность матриц отличаеться! \nОперации сложении и вычитания выполнить нельзя!!!");
+                Console.WriteLine("Размерность матриц отличаеться! \nОперации сложении и вычитания выполнить нельзя!!! \n");
 
             }
 
-            if (columnA == rowB && rowA == columnB)
+            if (columnA == rowB || rowA == columnB)
             {
                 matrixC = multMatrix(matrixA, matrixB);
-                Console.WriteLine($"Произведение матриц А и В");
+                Console.WriteLine($"Произведение матриц А и В:");
                 writeMatrix(matrixC);
                 Console.WriteLine();
             }
             else
             {
-                Console.WriteLine("Умножить матрицы невозможно! Количество " +
-               "столбцов матрицы А должно быть\nравно количестеству строк матрицы B, " +
-               "а количество строк матрицы А должно\nбыть равно столбцам матрицы B.");
+                Console.WriteLine($"Умножить матрицы невозможно! Произведение двух матриц АВ имеет смысл только в том случае, когда число столбцов матрицы А совпадает с числом строк матрицы В. ");
             }
 
 
